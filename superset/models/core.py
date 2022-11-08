@@ -29,6 +29,7 @@ from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Type
 import numpy
 import pandas as pd
 import sqlalchemy as sqla
+import sshtunnel
 from flask import g, request
 from flask_appbuilder import Model
 from sqlalchemy import (
@@ -55,7 +56,6 @@ from sqlalchemy.sql import expression, Select
 
 from superset import app, db_engine_specs
 from superset.constants import PASSWORD_MASK
-from superset.databases.models import SSHTunnelCredentials
 from superset.databases.utils import make_url_safe
 from superset.db_engine_specs.base import MetricType, TimeGrain
 from superset.extensions import cache_manager, encrypted_field_factory, security_manager
@@ -369,17 +369,21 @@ class Database(
         schema: Optional[str] = None,
         nullpool: bool = True,
         source: Optional[utils.QuerySource] = None,
-        ssh_tunnel_credentials: Optional[SSHTunnelCredentials] = None
+        ssh_tunnel_credentials: Optional["SSHTunnelCredentials"] = None
     ) -> Engine:
         if ssh_tunnel_credentials:
             # build with override
             print('building with params')
+
         else:
             # do look up in table for using database_id
             print('doing look up on table')
 
         try:
-            yield self._get_sqla_engine(schema=schema, nullpool=nullpool, source=source, ssh_tunnel_credentials=ssh_tunnel_credentials)
+            with sshtunnel.open_tunnel(
+                **ssh_tunnel_credentials.parameters()
+            ) as server:
+                yield self._get_sqla_engine(schema=schema, nullpool=nullpool, source=source, ssh_tunnel_server=server)
         except Exception as ex:
             raise ex
 
@@ -435,6 +439,13 @@ class Database(
 
         if ssh_tunnel_server:
             # update sqlalchemy_url
+            from sqlalchemy.engine.url import make_url
+            url = make_url(sqlalchemy_url)
+            remote_host = url.host
+            remote_port = url.port
+            sqlalchemy_url = url.set(host="127.0.0.1", port=ssh_tunnel_server.local_bind_port)
+            print('update sqla')
+
         try:
             return create_engine(sqlalchemy_url, **params)
         except Exception as ex:

@@ -83,6 +83,25 @@ export const getRangeExtraFormData = (
     : {};
 };
 
+export const getTimeRangeExtraFormData = (
+  col: string,
+  since?: string,
+  until?: string,
+) => {
+  const filters: QueryObjectFilterClause[] = [];
+  if (since !== undefined && since !== null) {
+    filters.push({ col, op: '>=', val: (new Date(since)).getTime() });
+  }
+  if (until !== undefined && until !== null) {
+    filters.push({ col, op: '<', val: (new Date(until)).getTime() });
+  }
+  return filters.length
+    ? {
+        filters,
+      }
+    : {};
+};
+
 export interface DataRecordValueFormatter {
   (value: DataRecordValue, dtype: GenericDataType): string;
 }

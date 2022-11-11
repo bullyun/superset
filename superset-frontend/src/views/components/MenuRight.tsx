@@ -383,7 +383,7 @@ const RightMenu = ({
                 )}
                 {navbarRight.version_string && (
                   <div css={versionInfoStyles}>
-                    Version: {navbarRight.version_string}
+                    Bullyun-Version: {navbarRight.version_string}
                   </div>
                 )}
                 {navbarRight.version_sha && (

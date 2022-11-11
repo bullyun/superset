@@ -34,6 +34,7 @@ import { TimeRange } from './Time';
 import { TimeGranularity } from '../../time-format';
 import { JsonObject } from '../../connection';
 import { AdhocColumn, PhysicalColumn } from './Column';
+import { Filter } from './Dashboard';
 
 /**
  * Metric definition/reference in query object.
@@ -185,6 +186,7 @@ export interface BaseFormData extends TimeRange, FormDataResidual {
   series_columns?: QueryFormColumn[];
   series_limit?: number;
   series_limit_metric?: QueryFormColumn;
+  filter?: Filter;
 }
 
 /**

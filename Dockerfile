@@ -39,7 +39,7 @@ COPY superset-frontend/package.json /app/superset-frontend/
 RUN cd /app \
     && mkdir -p superset/static \
     && touch superset/static/version_info.json \
-    && pip install --no-cache -r requirements/local.txt
+    && pip install --no-cache -r requirements/local.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 
 
 ######################################################################
@@ -53,6 +53,8 @@ RUN npm install -g npm@${NPM_VER}
 ARG NPM_BUILD_CMD="build"
 ENV BUILD_CMD=${NPM_BUILD_CMD}
 
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+
 # NPM ci first, as to NOT invalidate previous steps except for when package.json changes
 RUN mkdir -p /app/superset-frontend
 RUN mkdir -p /app/superset/assets
@@ -60,7 +62,7 @@ COPY ./docker/frontend-mem-nag.sh /
 COPY ./superset-frontend /app/superset-frontend
 RUN /frontend-mem-nag.sh \
         && cd /app/superset-frontend \
-        && npm ci
+        && cnpm ci
 
 # This seems to be the most expensive step
 RUN cd /app/superset-frontend \
@@ -148,8 +150,8 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREF
 
 # Cache everything for dev purposes...
 RUN cd /app \
-    && pip install --no-cache -r requirements/docker.txt \
-    && pip install --no-cache -r requirements/requirements-local.txt || true
+    && pip install --no-cache -r requirements/docker.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com \
+    && pip install --no-cache -r requirements/requirements-local.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com || true
 USER superset
 
 

@@ -97,11 +97,13 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
     inverseSelection,
     defaultToFirstItem,
     searchAllOptions,
+    filter,
   } = formData;
   const groupby = useMemo(
     () => ensureIsArray(formData.groupby).map(getColumnLabel),
     [formData.groupby],
   );
+  const filterCol = filter?.name || "";
   const [col] = groupby;
   const [initialColtypeMap] = useState(coltypeMap);
   const [dataMask, dispatchDataMask] = useImmerReducer(reducer, {
@@ -128,7 +130,7 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
         type: 'filterState',
         __cache: filterState,
         extraFormData: getSelectExtraFormData(
-          col,
+          filterCol,
           values,
           emptyFilter,
           inverseSelection,

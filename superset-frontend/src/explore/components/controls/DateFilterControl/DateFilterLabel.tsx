@@ -48,6 +48,7 @@ import {
   CalendarFrame,
   CustomFrame,
   AdvancedFrame,
+  MonthFrame,
 } from './components';
 
 const guessFrame = (timeRange: string): FrameType => {
@@ -309,6 +310,9 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       )}
       {frame === 'Custom' && (
         <CustomFrame value={timeRangeValue} onChange={setTimeRangeValue} />
+      )}
+      {frame === 'Month' && (
+        <MonthFrame value={timeRangeValue} onChange={setTimeRangeValue} />
       )}
       {frame === 'No filter' && <div data-test="no-filter" />}
       <Divider />

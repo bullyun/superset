@@ -24,6 +24,7 @@ export type SelectOptionType = {
 export type FrameType =
   | 'Common'
   | 'Calendar'
+  | 'Month'
   | 'Custom'
   | 'Advanced'
   | 'No filter';

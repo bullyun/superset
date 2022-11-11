@@ -159,13 +159,14 @@ export default function RangeFilterPlugin(props: PluginFilterRangeProps) {
   const [row] = data;
   // @ts-ignore
   const { min, max }: { min: number; max: number } = row;
-  const { groupby, defaultValue, enableSingleValue } = formData;
+  const { groupby, defaultValue, enableSingleValue, filter } = formData;
 
   const enableSingleMinValue = enableSingleValue === SingleValueType.Minimum;
   const enableSingleMaxValue = enableSingleValue === SingleValueType.Maximum;
   const enableSingleExactValue = enableSingleValue === SingleValueType.Exact;
   const rangeValue = enableSingleValue === undefined;
 
+  const filterCol = filter?.name || "";
   const [col = ''] = ensureIsArray(groupby).map(getColumnLabel);
   const [value, setValue] = useState<[number, number]>(
     defaultValue ?? [min, enableSingleExactValue ? min : max],
@@ -200,7 +201,7 @@ export default function RangeFilterPlugin(props: PluginFilterRangeProps) {
       setMarks(getMarks(lower, upper));
 
       setDataMask({
-        extraFormData: getRangeExtraFormData(col, lower, upper),
+        extraFormData: getRangeExtraFormData(filterCol, lower, upper),
         filterState: {
           value: lower !== null || upper !== null ? value : null,
           label: getLabel(lower, upper),

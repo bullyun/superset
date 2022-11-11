@@ -16,12 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { styled } from '@superset-ui/core';
+import {
+  ensureIsArray,
+  getColumnLabel,
+  styled,
+  SupersetClient,
+} from '@superset-ui/core';
 import React, { useCallback, useEffect } from 'react';
+import rison from 'rison';
 import DateFilterControl from 'src/explore/components/controls/DateFilterControl';
 import { NO_TIME_RANGE } from 'src/explore/constants';
 import { PluginFilterTimeProps } from './types';
 import { FilterPluginStyle } from '../common';
+import { getTimeRangeExtraFormData } from '../../utils';
 
 const TimeFilterStyles = styled(FilterPluginStyle)`
   overflow-x: auto;
@@ -57,6 +64,7 @@ const ControlContainer = styled.div<{
 
 export default function TimeFilterPlugin(props: PluginFilterTimeProps) {
   const {
+    formData,
     setDataMask,
     setFocusedFilter,
     unsetFocusedFilter,
@@ -67,19 +75,47 @@ export default function TimeFilterPlugin(props: PluginFilterTimeProps) {
     inputRef,
   } = props;
 
+  const {filter} = formData;
+  const filterCol = filter?.name || "";
+
+  const fetchTimeRange = async (timeRange?: string) => {
+    if (timeRange) {
+      const query = rison.encode_uri(timeRange);
+      const endpoint = `/api/v1/time_range/?q=${query}`;
+      try {
+        const response = await SupersetClient.get({ endpoint });
+        return {
+          since: response?.json?.result?.since || '',
+          until: response?.json?.result?.until || '',
+        };
+      } catch (response) {
+        return {};
+      }
+    } else {
+      return {};
+    }
+  };
+
   const handleTimeRangeChange = useCallback(
     (timeRange?: string): void => {
       const isSet = timeRange && timeRange !== NO_TIME_RANGE;
-      setDataMask({
-        extraFormData: isSet
-          ? {
-              time_range: timeRange,
-            }
-          : {},
-        filterState: {
-          value: isSet ? timeRange : undefined,
-        },
-      });
+      if (isSet) {
+        fetchTimeRange(timeRange).then(({ since, until }) => {
+          setDataMask({
+            extraFormData: getTimeRangeExtraFormData(filterCol, since, until),
+            filterState: {
+              value: timeRange,
+            },
+          });
+        });
+      } else {
+        setDataMask({
+          extraFormData: {},
+          filterState: {
+            value: undefined,
+          },
+        });
+      }
     },
     [setDataMask],
   );

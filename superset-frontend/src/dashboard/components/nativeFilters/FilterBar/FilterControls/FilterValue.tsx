@@ -134,6 +134,8 @@ const FilterValue: React.FC<FilterProps> = ({
       adhoc_filters,
       time_range,
     });
+    newFormData.filter = filter;
+    
     const filterOwnState = filter.dataMask?.ownState || {};
     // TODO: We should try to improve our useEffect hooks to depend more on
     // granular information instead of big objects that require deep comparison.

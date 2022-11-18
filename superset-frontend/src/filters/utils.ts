@@ -90,10 +90,20 @@ export const getTimeRangeExtraFormData = (
 ) => {
   const filters: QueryObjectFilterClause[] = [];
   if (since !== undefined && since !== null) {
-    filters.push({ col, op: '>=', val: (new Date(since)).getTime() });
+    const sinceDate = new Date(since);
+    filters.push({
+      col,
+      op: '>=',
+      val: sinceDate.valueOf() - sinceDate.getTimezoneOffset() * 60000,
+    });
   }
   if (until !== undefined && until !== null) {
-    filters.push({ col, op: '<', val: (new Date(until)).getTime() });
+    const untilDate = new Date(until);
+    filters.push({
+      col,
+      op: '<',
+      val: untilDate.valueOf() - untilDate.getTimezoneOffset() * 60000,
+    });
   }
   return filters.length
     ? {

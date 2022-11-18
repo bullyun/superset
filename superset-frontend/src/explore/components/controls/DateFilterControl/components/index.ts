@@ -21,3 +21,5 @@ export { CalendarFrame } from './CalendarFrame';
 export { CustomFrame } from './CustomFrame';
 export { AdvancedFrame } from './AdvancedFrame';
 export { MonthFrame } from './MonthFrame';
+export { YearFrame } from './YearFrame';
+export { QuarterFrame } from './QuarterFrame';

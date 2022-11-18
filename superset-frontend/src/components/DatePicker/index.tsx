@@ -26,4 +26,6 @@ export const RangePicker = styled(AntdRangePicker)`
 `;
 
 export const DatePicker = AntdDatePicker;
-export const MonthPicker = AntdDatePicker.MonthPicker;
+export const { MonthPicker } = AntdDatePicker;
+export const { YearPicker } = AntdDatePicker;
+export const { QuarterPicker } = AntdDatePicker;

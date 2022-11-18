@@ -29,6 +29,8 @@ import {
 
 export const FRAME_OPTIONS: SelectOptionType[] = [
   { value: 'Month', label: t('Month') },
+  { value: 'Quarter', label: t('Quarter') },
+  { value: 'Year', label: t('Year') },
   { value: 'Common', label: t('Last') },
   { value: 'Calendar', label: t('Previous') },
   { value: 'Custom', label: t('Custom') },

@@ -20,7 +20,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { t } from '@superset-ui/core';
 import { FrameComponentProps } from 'src/explore/components/controls/DateFilterControl/types';
-import { MonthPicker } from 'src/components/DatePicker';
+import { QuarterPicker } from 'src/components/DatePicker';
 // @ts-ignore
 import { locales } from 'antd/dist/antd-with-locales';
 import {
@@ -32,7 +32,7 @@ import {
 import { ExplorePageState } from 'src/explore/types';
 import moment, { Moment } from 'moment';
 
-export function MonthFrame(props: FrameComponentProps) {
+export function QuarterFrame(props: FrameComponentProps) {
   let [sinceSrc] = (props.value || SEPARATOR).split(SEPARATOR);
   if (sinceSrc == null || sinceSrc.length === 0 || sinceSrc === 'No filter') {
     sinceSrc = moment().format(MOMENT_FORMAT);
@@ -49,17 +49,16 @@ export function MonthFrame(props: FrameComponentProps) {
   return (
     <>
       <div data-test="custom-frame">
-        <div className="section-title">{t('Configure Month')}</div>
+        <div className="section-title">{t('Configure Quarter')}</div>
       </div>
-      <MonthPicker
-        showTime
+      <QuarterPicker
         allowClear={false}
         locale={currentLocale}
         value={dttmToMoment(since)}
         onChange={(datetime: Moment) =>
           onChange(
-            datetime.startOf('month').format(MOMENT_FORMAT),
-            datetime.add(1, 'month').startOf('month').format(MOMENT_FORMAT),
+            datetime.startOf('quarter').format(MOMENT_FORMAT),
+            datetime.add(1, 'quarter').startOf('quarter').format(MOMENT_FORMAT),
           )
         }
       />

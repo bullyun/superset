@@ -49,6 +49,8 @@ import {
   CustomFrame,
   AdvancedFrame,
   MonthFrame,
+  YearFrame,
+  QuarterFrame,
 } from './components';
 
 const guessFrame = (timeRange: string): FrameType => {
@@ -313,6 +315,12 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       )}
       {frame === 'Month' && (
         <MonthFrame value={timeRangeValue} onChange={setTimeRangeValue} />
+      )}
+      {frame === 'Quarter' && (
+        <QuarterFrame value={timeRangeValue} onChange={setTimeRangeValue} />
+      )}
+      {frame === 'Year' && (
+        <YearFrame value={timeRangeValue} onChange={setTimeRangeValue} />
       )}
       {frame === 'No filter' && <div data-test="no-filter" />}
       <Divider />

@@ -103,7 +103,7 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
     () => ensureIsArray(formData.groupby).map(getColumnLabel),
     [formData.groupby],
   );
-  const filterCol = filter?.name || "";
+  const filterCol = filter?.name || '';
   const [col] = groupby;
   const [initialColtypeMap] = useState(coltypeMap);
   const [dataMask, dispatchDataMask] = useImmerReducer(reducer, {

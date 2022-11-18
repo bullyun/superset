@@ -166,7 +166,7 @@ export default function RangeFilterPlugin(props: PluginFilterRangeProps) {
   const enableSingleExactValue = enableSingleValue === SingleValueType.Exact;
   const rangeValue = enableSingleValue === undefined;
 
-  const filterCol = filter?.name || "";
+  const filterCol = filter?.name || '';
   const [col = ''] = ensureIsArray(groupby).map(getColumnLabel);
   const [value, setValue] = useState<[number, number]>(
     defaultValue ?? [min, enableSingleExactValue ? min : max],

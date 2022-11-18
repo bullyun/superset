@@ -25,6 +25,8 @@ export type FrameType =
   | 'Common'
   | 'Calendar'
   | 'Month'
+  | 'Quarter'
+  | 'Year'
   | 'Custom'
   | 'Advanced'
   | 'No filter';

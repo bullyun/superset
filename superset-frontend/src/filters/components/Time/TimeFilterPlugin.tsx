@@ -16,12 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import {
-  ensureIsArray,
-  getColumnLabel,
-  styled,
-  SupersetClient,
-} from '@superset-ui/core';
+import { styled, SupersetClient } from '@superset-ui/core';
 import React, { useCallback, useEffect } from 'react';
 import rison from 'rison';
 import DateFilterControl from 'src/explore/components/controls/DateFilterControl';
@@ -75,8 +70,8 @@ export default function TimeFilterPlugin(props: PluginFilterTimeProps) {
     inputRef,
   } = props;
 
-  const {filter} = formData;
-  const filterCol = filter?.name || "";
+  const { filter } = formData;
+  const filterCol = filter?.name || '';
 
   const fetchTimeRange = async (timeRange?: string) => {
     if (timeRange) {

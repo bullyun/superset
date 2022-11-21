@@ -202,6 +202,9 @@ class DatasetDAO(BaseDAO):  # pylint: disable=too-many-public-methods
             new_columns.append(column_obj)
         # Checks if an exiting column is missing from properties and delete it
         for existing_column in model.columns:
+            if len(existing_column.expression) > 0:
+                new_columns.append(existing_column)
+                continue
             if existing_column.id not in [column.id for column in new_columns]:
                 DatasetDAO.delete_column(existing_column)
         return new_columns

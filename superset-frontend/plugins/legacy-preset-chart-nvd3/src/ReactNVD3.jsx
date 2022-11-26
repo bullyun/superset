@@ -46,7 +46,6 @@ NVD3.propTypes = {
 export default styled(NVD3)`
   .superset-legacy-chart-nvd3-dist-bar,
   .superset-legacy-chart-nvd3-bar {
-    overflow-x: auto !important;
     svg {
       &.nvd3-svg {
         width: auto;

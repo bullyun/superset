@@ -188,7 +188,7 @@ function StickyWrap({
     );
     const [hasVerticalScroll, hasHorizontalScroll] = needScrollBar({
       width: maxWidth,
-      height: maxHeight - theadHeight - tfootHeight,
+      height: maxHeight,
       innerHeight: fullTableHeight,
       innerWidth: widths.reduce(sum),
       scrollBarSize,

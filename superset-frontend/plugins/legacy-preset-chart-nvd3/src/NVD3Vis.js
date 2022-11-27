@@ -734,7 +734,6 @@ function nvd3Vis(element, props) {
       .datum(data)
       .transition()
       .duration(500)
-      .attr('height', height)
       .attr('width', width)
       .call(chart);
 
@@ -996,7 +995,6 @@ function nvd3Vis(element, props) {
         .transition()
         .duration(500)
         .attr('width', width)
-        .attr('height', height)
         .call(chart);
 
       // On scroll, hide (not remove) tooltips so they can reappear on hover.
@@ -1265,7 +1263,7 @@ function nvd3Vis(element, props) {
         }
 
         // rerender chart appended with annotation layer
-        svg.datum(data).attr('height', height).attr('width', width).call(chart);
+        svg.datum(data).attr('width', width).call(chart);
 
         // Display styles for Time Series Annotations
         chart.dispatch.on('renderEnd.timeseries-annotation', () => {

@@ -730,12 +730,7 @@ function nvd3Vis(element, props) {
     chart.width(width);
     chart.height(height);
 
-    svg
-      .datum(data)
-      .transition()
-      .duration(500)
-      .attr('width', width)
-      .call(chart);
+    svg.datum(data).transition().duration(500).attr('width', width).call(chart);
 
     // For log scale, only show 1, 10, 100, 1000, ...
     if (yIsLogScale) {
